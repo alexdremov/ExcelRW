@@ -12,31 +12,25 @@ class ExcelRW {
     tmpDir = null
     filePath = null
 
-    constructor(filePath, tmpDir = 'tmp', cb = function () {
-    }) {
+    constructor(filePath, tmpDir = 'tmp') {
         this.unique_id = uuid.v4()
         this.tmpDir = tmpDir
         this.filePath = filePath
         this.dirUnpackPath = path.join(this.tmpDir, this.unique_id)
-
-        this.unZipTemplate(cb)
     }
 
-    async unZipTemplate(cb = function () {
-    }) {
+    prepareTemplate() {
         const filePath = this.filePath
         const outputPath = this.dirUnpackPath
         if (!fs.existsSync(outputPath)) {
             fs.mkdirSync(outputPath);
         }
-        fs.createReadStream(filePath).pipe(unzipper.Extract({path: outputPath}))
+        let stream = fs.createReadStream(filePath).pipe(unzipper.Extract({path: outputPath}))
 
-        var end = await new Promise(function (resolve, reject) {
-            fs.on('close', () => resolve());
-            fd.on('error', reject); // or something like that. might need to close `hash`
+        return new Promise(function (resolve, reject) {
+            stream.on('close', () => resolve());
+            stream.on('error', reject);
         });
-
-        cb()
     }
 
     getXML(filePath) {
