@@ -125,7 +125,7 @@ class ExcelRW {
             })
             foundCell = dataInf.worksheet.sheetData[0].row[foundRow].c.length - 1
         }
-        console.log(sheet, cell, value)
+
         if (!isNaN(value) && /^\d+$/.test(value)) {
             delete dataInf.worksheet.sheetData[0].row[foundRow].c[foundCell].$.t
             dataInf.worksheet.sheetData[0].row[foundRow].c[foundCell].v = value

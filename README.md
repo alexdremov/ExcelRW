@@ -21,9 +21,12 @@ Before working with Excel files, they are needed to be unpacked. Therefore, part
 **Basic usage:**
 ```js
 let workbook = new ExcelRW(pathToTemplate, pathToTemporaryFolder)
+
 workbook.prepareTemplate().then(async function() {
   workbook.setValue("Sheet 1", "A1", "Hello, World!") // Working with template
+
   await workbook.save(outputPath) // Save edits to the file
+
   workbook.release() // Delete temporary files from disk
 })
 ```
