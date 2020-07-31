@@ -1,6 +1,6 @@
 {
   "name": "excel-rw",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Lightweight Excel-based formats editor that preserves styles, macros, etc.",
   "main": "ExcelRW.js",
   "scripts": {

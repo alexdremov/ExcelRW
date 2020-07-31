@@ -5,6 +5,7 @@ const unzipper = require('unzipper')
 const rimraf = require("rimraf");
 const xml2js = require('xml2js')
 const archiver = require('archiver');
+const ExcelRWorksheet = require('./ExcelRWorksheet')
 
 class ExcelRW {
     unique_id = null
@@ -21,14 +22,15 @@ class ExcelRW {
         this.unZipTemplate(cb)
     }
 
-    unZipTemplate(cb = function () {
+    async unZipTemplate(cb = function () {
     }) {
         const filePath = this.filePath
         const outputPath = this.dirUnpackPath
         if (!fs.existsSync(outputPath)) {
             fs.mkdirSync(outputPath);
         }
-        fs.createReadStream(filePath).pipe(unzipper.Extract({path: outputPath})).on('close', cb)
+        await fs.createReadStream(filePath).pipe(unzipper.Extract({path: outputPath}))
+        cb()
     }
 
     getXML(filePath) {
