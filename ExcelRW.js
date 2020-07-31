@@ -29,7 +29,13 @@ class ExcelRW {
         if (!fs.existsSync(outputPath)) {
             fs.mkdirSync(outputPath);
         }
-        await fs.createReadStream(filePath).pipe(unzipper.Extract({path: outputPath}))
+        fs.createReadStream(filePath).pipe(unzipper.Extract({path: outputPath}))
+
+        var end = await new Promise(function (resolve, reject) {
+            fs.on('close', () => resolve());
+            fd.on('error', reject); // or something like that. might need to close `hash`
+        });
+
         cb()
     }
 
