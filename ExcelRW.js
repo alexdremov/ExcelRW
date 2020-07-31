@@ -12,6 +12,10 @@ class ExcelRW {
     tmpDir = null
     filePath = null
 
+    sheetsIds = null
+
+    worksheets = null
+
     constructor(filePath, tmpDir = 'tmp') {
         this.unique_id = uuid.v4()
         this.tmpDir = tmpDir
@@ -33,6 +37,10 @@ class ExcelRW {
         });
     }
 
+    getWorksheets() {
+        const shNumber = this.getSheetIds().length
+    }
+
     getXML(filePath) {
         const dataInf = (function () {
             let data = null, error = null;
@@ -46,7 +54,9 @@ class ExcelRW {
         return dataInf
     }
 
-    getSheetIds() {
+    getSheetIds(useCached = true) {
+        if (this.sheetsIds !== null && useCached)
+            return this.sheetsIds
         let sheetInfoFile = path.join(this.dirUnpackPath, '/xl/workbook.xml')
 
         const dataInf = this.getXML(sheetInfoFile)
@@ -55,7 +65,8 @@ class ExcelRW {
         for (var sh in dataInf.workbook.sheets[0].sheet) {
             sheets[dataInf.workbook.sheets[0].sheet[sh].$.name] = dataInf.workbook.sheets[0].sheet[sh].$['r:id'].slice(3)
         }
-        return sheets
+        this.sheetsIds = sheets
+        return this.sheetsIds
     }
 
     columnNumber(column) {
@@ -75,7 +86,7 @@ class ExcelRW {
         return cell.match(/[\d]+/g)[0];
     }
 
-    setValue(sheet, cell, value) {
+    setValue(sheet, cell, value, type = 'auto') {
         let sheetId = this.getSheetIds()[sheet]
         if (!isNaN(sheet))
             sheetId = sheet
@@ -126,12 +137,16 @@ class ExcelRW {
             foundCell = dataInf.worksheet.sheetData[0].row[foundRow].c.length - 1
         }
 
-        if (!isNaN(value) && /^\d+$/.test(value)) {
+        if ((!isNaN(value) && /^\d+$/.test(value) || typeof value == "number") && (type === 'auto' || type === 'number')) {
             delete dataInf.worksheet.sheetData[0].row[foundRow].c[foundCell].$.t
             dataInf.worksheet.sheetData[0].row[foundRow].c[foundCell].v = value
-        } else {
+        } else if (type === 'auto' || type === 'text') {
             dataInf.worksheet.sheetData[0].row[foundRow].c[foundCell].$.t = "s"
             dataInf.worksheet.sheetData[0].row[foundRow].c[foundCell].v = this.searchSharedString(value)
+        } else if (type === 'formula') {
+            delete dataInf.worksheet.sheetData[0].row[foundRow].c[foundCell].$.t
+            delete dataInf.worksheet.sheetData[0].row[foundRow].c[foundCell].v
+            dataInf.worksheet.sheetData[0].row[foundRow].c[foundCell].f = value
         }
 
         var builder = new xml2js.Builder();
@@ -194,7 +209,7 @@ class ExcelRW {
         });
     }
 
-    release(cb=function () {
+    release(cb = function () {
 
     }) {
         if (fs.existsSync(this.dirUnpackPath))
