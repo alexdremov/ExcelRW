@@ -1,11 +1,34 @@
 {
   "name": "excel-rw",
   "version": "1.0.0",
-  "description": "",
+  "description": "Lightweight Excel-based formats editor that preserves styles, macros, etc.",
   "main": "ExcelRW.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexRoar/ExcelRW.git"
+  },
+  "keywords": [
+    "Excel",
+    "xlsm",
+    "xlsx",
+    "parse"
+  ],
+  "author": "Aleksandr Dremov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlexRoar/ExcelRW/issues"
+  },
+  "homepage": "https://github.com/AlexRoar/ExcelRW#readme",
+  "dependencies": {
+    "archiver": "^5.0.0",
+    "fs": "0.0.1-security",
+    "path": "^0.12.7",
+    "rimraf": "^3.0.2",
+    "unzipper": "^0.10.11",
+    "uuid": "^8.3.0",
+    "xml2js": "^0.4.23"
+  }
 }
