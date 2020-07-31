@@ -1,0 +1,11 @@
+{
+  "name": "excel-rw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "ExcelRW.js",
+  "scripts": {
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
