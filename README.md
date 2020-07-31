@@ -7,7 +7,7 @@ I created that package when I needed to edit .xlsm files preserving their style.
 ## Install
 
 ```shell script
-npm install excel-rw
+npm install @alexroar/excel-rw
 ```
 
 ```js

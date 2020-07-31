@@ -1,5 +1,5 @@
 {
-  "name": "excel-rw",
+  "name": "@alexroar/excel-rw",
   "version": "1.1.1",
   "description": "Lightweight Excel-based formats editor that preserves styles, macros, etc.",
   "main": "ExcelRW.js",
@@ -30,5 +30,8 @@
     "unzipper": "^0.10.11",
     "uuid": "^8.3.0",
     "xml2js": "^0.4.23"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
