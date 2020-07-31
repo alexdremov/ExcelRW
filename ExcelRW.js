@@ -194,11 +194,11 @@ class ExcelRW {
         });
     }
 
-    release() {
+    release(cb=function () {
+
+    }) {
         if (fs.existsSync(this.dirUnpackPath))
-            rimraf(path.join(this.dirUnpackPath), [], function () {
-                console.log('Deleted')
-            })
+            rimraf(path.join(this.dirUnpackPath), [], cb)
     }
 
     deleteFormulasCache() {
