@@ -87,6 +87,7 @@ class ExcelRWorksheet {
     }
 
     deleteFormulasCache() {
+        this.altered = true
         const dataInf = this.data
         if (dataInf.worksheet.sheetData[0].row === undefined)
             return
