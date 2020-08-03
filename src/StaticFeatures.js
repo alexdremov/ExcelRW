@@ -38,6 +38,28 @@ class StaticFeatures {
     static getRowFromCell(cell) {
         return cell.match(/[\d]+/g)[0];
     }
+
+    static getTextFromSharedCell(shared) {
+        if (shared.t !== undefined) {
+            if (typeof shared.t[0] === 'string')
+                return shared.t[0]
+            if (shared.t[0]._ !== undefined)
+                return shared.t[0]._
+            return null
+        } else if (shared.r !== undefined) {
+            let outStr = ''
+            for (let i in shared.r) {
+                if (shared.r[i].t === undefined)
+                    continue
+                if (typeof shared.r[i].t === 'string')
+                    outStr += shared.r[i].t
+                else if (typeof shared.r[i]._ === 'string')
+                    outStr += shared.r[i]._
+            }
+            return outStr
+        }
+        return null
+    }
 }
 
 module.exports = StaticFeatures;

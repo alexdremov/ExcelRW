@@ -106,7 +106,7 @@ class ExcelRW {
     addToSharedStrings(string) {
         let stringsInfoFile = path.join(this.dirUnpackPath, '/xl/', 'sharedStrings.xml')
         const dataInf = StaticFeatures.getXML(stringsInfoFile)
-        dataInf.sst.si.push({"t": string})
+        dataInf.sst.si.push({"t": string, $:{"xml:space": "preserve"}})
         var builder = new xml2js.Builder();
         var xml = builder.buildObject(dataInf);
         fs.writeFileSync(stringsInfoFile, xml)
@@ -119,7 +119,7 @@ class ExcelRW {
         let data = dataInf.sst.si
 
         for (let i = 0; i < data.length; i++) {
-            if (data[i].t === string && data[i].t !== undefined) {
+            if (StaticFeatures.getTextFromSharedCell(data[i]) === string && data[i].t !== undefined) {
                 return i
             }
         }
