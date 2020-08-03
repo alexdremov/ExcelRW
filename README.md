@@ -11,7 +11,7 @@ npm install @alexroar/excel-rw
 ```
 
 ```js
-const ExcelRW = require('excel-rw');
+const ExcelRW = require('@alexroar/excel-rw');
 ```
 
 ## Usage
