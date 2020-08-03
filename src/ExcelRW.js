@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2020.
+ * Designed and developed by Aleksandr Dremov
+ * dremov.me@gmail.com
+ *
+ */
+
 const uuid = require('uuid')
 const fs = require('fs');
 const path = require('path')
@@ -14,8 +21,11 @@ class ExcelRW {
     filePath = null
 
     sheetsIds = null
-
     worksheets = null
+
+    sharedStrings = null
+
+
 
     constructor(filePath, tmpDir = 'tmp') {
         this.unique_id = uuid.v4()
@@ -76,7 +86,9 @@ class ExcelRW {
         return this.worksheets[sheetId.toString()].setValue(cell, value, type)
     }
 
-    readSharedStrings() {
+    readSharedStrings(cache = false) {
+        if (cache && this.sharedStrings !== null)
+            return this.sharedStrings
         let stringsInfoFile = path.join(this.dirUnpackPath, '/xl/', 'sharedStrings.xml')
         const dataInf = (function () {
             let data = null, error = null;
@@ -87,8 +99,8 @@ class ExcelRW {
             if (error) throw error;
             return data;
         }());
-
-        return dataInf.sst.si
+        this.sharedStrings = dataInf.sst.si
+        return this.sharedStrings
     }
 
     addToSharedStrings(string) {

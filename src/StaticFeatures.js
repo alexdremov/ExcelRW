@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2020.
+ * Designed and developed by Aleksandr Dremov
+ * dremov.me@gmail.com
+ *
+ */
+
 const fs = require('fs')
 const xml2js = require('xml2js')
 
